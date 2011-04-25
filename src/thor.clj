@@ -14,7 +14,6 @@
       word? (fn [word] (-> word type (= ::Word)))]
   (defn _thor [stack & elems]
     (loop [*stack* stack, [atom & _] elems]
-      ;(println "Stack:" *stack* "\nElems:" [atom _] "\n")
       (if-not (and (nil? atom) (nil? _))
         (cond
           (#{< <= > >= = not= + - * /} atom) (let [[y x & _stack] *stack*] (recur (push (atom x y) _stack) _))
@@ -84,9 +83,5 @@ The stack can be accesed through the *stack* binding and is a regular Clojure se
   dup-2 -rot -rot
   [rot rot !while] join-quotes
   [rot rot drop-2] !if)
-(defword !until "[bool [until] -> Runs [until] as long as bool is false. Bool can also be a word or a quote.]"
-  dup-2 -rot -rot
-  [rot rot drop-2] join-quotes
-  [rot rot !while] swap !if)
 (defword !until "[bool [until] -> Runs [until] as long as bool is false. Bool can also be a word or a quote.]"
   swap [neg] join-quotes swap !while)
